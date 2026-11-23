@@ -2,14 +2,41 @@
 @model CreatePhoneBookEntryViewModel
 
 <h2>ثبت مخاطب</h2>
-<label for="userId">نام کاربر</label>
-<select id="userId" name="UserId">
-    <option value="">انتخاب کنید</option>
-    @foreach (var user in (IEnumerable<PhoneBookUser>)ViewBag.Users)
-    {
-        <option value="@user.Id">
-            @user.FirstName @user.LastName
-        </option>
-    }
-</select>
+<form method="post" action="/PhoneBook/Create">
+    @Html.AntiForgeryToken()
+    <label for="userId">نام کاربر</label>
+    <select id="userId" name="UserId">
+        <option value="">انتخاب کنید</option>
+        @foreach (var user in (IEnumerable<PhoneBookUser>)ViewBag.Users)
+        {
+            <option value="@user.Id">
+                @user.FirstName @user.LastName
+            </option>
+        }
+    </select>
+    <label for="unitId">واحد سازمانی</label>
+    <select id="unitId" name="UnitId">
+        <option value="">انتخاب کنید</option>
+        @foreach (var unit in (IEnumerable<PhoneBookUnit>)ViewBag.Units)
+        {
+            <option value="@unit.Id">
+                @(string.IsNullOrWhiteSpace(unit.Title)
+                                ? unit.FullName
+                                : unit.Title)
+            </option>
+        }
+    </select>
+    <label for="internalPhone">شماره داخلی</label>
+    <input id="internalPhone" name="InternalPhone"
+           type="text" maxlength="20" required />
+    <label for="phoneNumber">تلفن</label>
+    <input id="phoneNumber" name="PhoneNumber"
+           type="text" maxlength="30" />
+    <label for="mobileNumber">موبایل</label>
+    <input id="mobileNumber" name="MobileNumber"
+           type="text" maxlength="30" />
+    <button type="submit">ثبت مخاطب</button>
+
+</form>
+
 
