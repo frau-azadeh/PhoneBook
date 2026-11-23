@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneBook.Data;
+using PhoneBook.Models;
 
 namespace PhoneBook.Controllers
 {
@@ -24,9 +25,17 @@ namespace PhoneBook.Controllers
             return View(contacts);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var users = await _context.Users
+                .AsNoTracking()
+                .Where(x => x.FirstName != null && x.LastName != null)
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .ToListAsync();
+            ViewBag.Users = users;
+            return View(new CreatePhoneBookEntryViewModel());
         }
+      
     }
 }
