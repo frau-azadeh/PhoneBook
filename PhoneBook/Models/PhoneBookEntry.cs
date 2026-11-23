@@ -13,6 +13,7 @@ namespace PhoneBook.Models
         public string Unit { get; set; }
         public string InternalPhone { get; set; }
         public string PhoneNumber { get; set; }
+        public string MobileNumber { get; set; }
         public bool IsDeleted { get; set; }
         public long Version { get; set; }
         public DateTime CreatedAt { get; set; }
