@@ -1,0 +1,38 @@
+﻿
+@using System.Linq
+@model IEnumerable<PhoneBook.Models.PhoneBookEntry>
+
+<h2>دفترچه تلفن</h2>
+@if (!Model.Any())
+{
+    <p>هنوز مخاطبی در دفترچه تلفن ثبت نشده است</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>نام</th>
+                <th>نام خانوادگی</th>
+                <th>واحد</th>
+                <th>داخلی</th>
+                <th>تلفن</th>
+                <th>موبایل</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model)
+            {
+                <tr>
+                    <th>@contact.FirstName</th>
+                    <td>@contact.LastName</td>
+                    <td>@contact.Unit</td>
+                    <td>@contact.InternalPhone</td>
+                    <td>@contact.PhoneNumber</td>
+                    <td>@contact.MobileNumber</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

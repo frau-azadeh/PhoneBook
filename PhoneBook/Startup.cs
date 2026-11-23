@@ -10,6 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+// اضافه‌شده برای EF Core: متد UseSqlServer در این namespace قرار دارد.
+using Microsoft.EntityFrameworkCore;
+
+// اضافه‌شده برای EF Core: namespace کلاس PhoneBookDbContext خودمان است.
+using PhoneBook.Data;
+
 namespace PhoneBook
 {
     public class Startup
@@ -21,21 +27,26 @@ namespace PhoneBook
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // اضافه‌شده برای EF Core:
+            // PhoneBookDbContext را ثبت می‌کند تا کنترلر بتواند
+            // آن را از طریق سازنده دریافت کند.
+            services.AddDbContext<PhoneBookDbContext>(options =>
+                options.UseSqlServer(
+                    // این نام باید با کلید موجود در appsettings.json یکسان باشد.
+                    Configuration.GetConnectionString("PersonnelReview")));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
