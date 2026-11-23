@@ -13,6 +13,7 @@ namespace PhoneBook.Data
             ) : base(options) { }
         public DbSet<PhoneBookEntry> Entries { get; set; }
         public DbSet<PhoneBookUser> Users { get; set; }
+        public DbSet<PhoneBookUnit> Units { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var entry = modelBuilder.Entity<PhoneBookEntry>();
@@ -37,7 +38,15 @@ namespace PhoneBook.Data
             user.Property(x => x.Id).HasColumnName("Id");
             user.Property(X => X.FirstName).HasColumnName("FirstName");
             user.Property(x => x.LastName).HasColumnName("LastName");
-            
+
+
+            var unit = modelBuilder.Entity<PhoneBookUnit>();
+            unit.ToTable("TM_AllJobs", "dbo");
+            unit.HasKey(x => x.Id);
+
+            unit.Property(x => x.Id).HasColumnName("Job_ID");
+            unit.Property(x => x.Title).HasColumnName("Job_Title");
+            unit.Property(x => x.FullName).HasColumnName("Job_Full_Name");
         }
     }
 }
