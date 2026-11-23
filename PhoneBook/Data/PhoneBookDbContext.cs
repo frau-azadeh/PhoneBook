@@ -12,6 +12,7 @@ namespace PhoneBook.Data
         public PhoneBookDbContext(DbContextOptions<PhoneBookDbContext>options
             ) : base(options) { }
         public DbSet<PhoneBookEntry> Entries { get; set; }
+        public DbSet<PhoneBookUser> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var entry = modelBuilder.Entity<PhoneBookEntry>();
@@ -27,8 +28,16 @@ namespace PhoneBook.Data
             entry.Property(x => x.IsDeleted).HasColumnName("PBE_Is_deleted");
             entry.Property(x => x.Version).HasColumnName("PBE_Version");
             entry.Property(x => x.CreatedAt).HasColumnName("PBE_CreatedAt");
-            entry.Property(x => x.CreatedByUserId).HasColumnName("PBE_CreatedByUserId_FK");
+            entry.Property(x => x.CreatedByUserId).HasColumnName("PBE_CreatedByUserId_Fk");
 
+            var user = modelBuilder.Entity<PhoneBookUser>();
+            user.ToTable("AspNetUsers", "dbo");
+            user.HasKey(x => x.Id);
+
+            user.Property(x => x.Id).HasColumnName("Id");
+            user.Property(X => X.FirstName).HasColumnName("FirstName");
+            user.Property(x => x.LastName).HasColumnName("LastName");
+            
         }
     }
 }
