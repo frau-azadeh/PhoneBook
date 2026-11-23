@@ -1,7 +1,15 @@
-﻿
-@{
-    ViewData["Title"] = "Create";
-}
+﻿@using PhoneBook.Models
+@model CreatePhoneBookEntryViewModel
 
 <h2>ثبت مخاطب</h2>
+<label for="userId">نام کاربر</label>
+<select id="userId" name="UserId">
+    <option value="">انتخاب کنید</option>
+    @foreach (var user in (IEnumerable<PhoneBookUser>)ViewBag.Users)
+    {
+        <option value="@user.Id">
+            @user.FirstName @user.LastName
+        </option>
+    }
+</select>
 
