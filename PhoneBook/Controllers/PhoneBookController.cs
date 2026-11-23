@@ -23,5 +23,10 @@ namespace PhoneBook.Controllers
                 .ToListAsync();
             return View(contacts);
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
